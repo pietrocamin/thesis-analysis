@@ -1,0 +1,30 @@
+[workspace]
+authors = ["Pietro Camin <pietro.camin@gmail.com>"]
+channels = ["conda-forge"]
+name = "likert-analysis"
+platforms = ["osx-64"]
+version = "0.1.0"
+
+[tasks]
+analyze = "python analyze_data.py" # Task to run the analysis script
+validate = "python validation_analysis.py" # Task to validate the input data
+
+# AI-generated tasks
+generate = "python generate_plots.py" # Task to generate plots from the analysis
+clean = "rm -rf __pycache__ *.pyc" # Task to clean up Python bytecode files
+test = "python -m unittest discover -s tests" # Task to run unit tests
+lint = "flake8 . --exclude=__pycache__,*.pyc" # Task to lint the codebase
+format = "black ." # Task to format the code using Black
+doc = "pdoc --html --output-dir docs src" # Task to generate documentation
+
+[dependencies]
+python = ">=3.13.3,<3.14"
+pandas = ">=2.3.0,<3"
+matplotlib = ">=3.10.3,<4"
+seaborn = ">=0.13.2,<0.14"
+factor-analyzer = ">=0.5.1,<0.6"
+pingouin = ">=0.5.5,<0.6"
+jinja2 = ">=3.1.6,<4"
+
+[pypi-dependencies]
+semopy = ">=2.3.11, <3"

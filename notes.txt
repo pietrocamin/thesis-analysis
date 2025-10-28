@@ -1,0 +1,22 @@
+--- test-dataset.csv ---
+
+
+--- bell-dataset.csv ---
+Generation based on the following principles of realistic human response patterns:
+    1. Central Tendency Bias: Most people avoid the extreme ends of a scale (1 and 7). Their responses will tend to cluster around the middle values (3, 4, 5), creating a more bell-shaped distribution for many items.
+    2. Inattentive Responders ("Straight-lining"): A small percentage of respondents will get lazy or bored and click the same number all the way down (e.g., a row of all '4's). This is a common data quality issue.
+    3. Acquiescence Bias ("Yea-saying"): Some individuals have a tendency to agree with statements regardless of content. These respondents will score moderately high on most items, weakening the expected negative correlation between opposing factors (e.g., between C and A).
+    4. Slight Inconsistency: Even a conscientious respondent won't be perfectly consistent. While they may feel positively about a factor in general, one or two specific items might elicit a different response. This adds "error variance" to the model.
+    5. Varied "True Scores": The underlying "trait level" of respondents will be drawn from a normal distribution, meaning most people will be in the middle, with fewer people at the very high or low ends of the constructs.
+This new dataset will be a more rigorous and realistic test for your validation scripts.
+The model poorly fits the CFA.
+
+
+--- good-dit-dataset.csv ---
+Generation principles:
+    1. Strong but Imperfect Internal Consistency: Items within a factor will be highly correlated (leading to good Cronbach's Alpha, e.g., > 0.80), but with slightly more noise than the "perfect" dataset. A respondent with a high "true score" on a factor will generally score high on its items, but might rate one or two items a bit lower.
+    2. Minor Model Misspecification: This is the key. I will introduce very subtle relationships that the simple CFA model does not account for. For example, I might create a tiny correlation between the error terms of two specific items (e.g., C3 and HHR2). This is a realistic scenario where two items might share some unique variance outside of their parent factors (e.g., due to similar wording). The CFA model assumes these are uncorrelated, so this small violation will degrade the fit from "perfect" to "good" without breaking the model entirely.
+    3. Realistic Score Distribution: The data will still exhibit central tendency bias, with fewer extreme scores (1s and 7s), making the overall distribution more plausible.
+    4. No "Broken" Data: I will not include any straight-liners that would cause the model to fail to converge.
+This dataset represents a successful but realistic questionnaire validation.
+
