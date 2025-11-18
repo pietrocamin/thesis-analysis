@@ -79,6 +79,8 @@ def validate_questionnaire(file_path):
             'HRR': [f'HRR{i}' for i in range(1, 5)]
         }
         
+        # correlation matrix for every item to see if correlate by factor
+        
         for factor, cols in factor_items.items():
             alpha = pg.cronbach_alpha(data=df[cols])
             print(f"  - Factor '{factor}': Cronbach's Alpha = {alpha[0]:.3f}")
