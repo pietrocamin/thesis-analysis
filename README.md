@@ -7,7 +7,7 @@
 
 ### Script
 - **reverse_items.py**: creates a new dataset with the values of the negative items inverted.
-- **inattentive_responses_analysis.py**: analysis for the identification of inattentive responses.
+- **inattentive_responses_analysis.py**: analysis for the identification of careless respondents.
 - **outliers_analysis**: analysis for the identification of outliers.
 - **cfa_analysis.py**: runs the CFA.
 - **analyze_data.py**: calculates descriptive statistics, such as item means and standard deviations, for each item and factor.
