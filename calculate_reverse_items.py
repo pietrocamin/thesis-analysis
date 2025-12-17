@@ -22,7 +22,7 @@ def convert_reverse_scored_items(file_path, file_name="specific_columns"):
     # Apply the conversion only to the specified columns
     # Using .loc for label-based indexing to select specific columns by name
     df[columns_to_invert] = df[columns_to_invert].applymap(lambda x: conversion_map.get(x, x))
-    output_filename = f"DATASETS/converted_dataset_{file_name}.csv"
+    output_filename = f"DATASETS/reversed_DATASET_{file_name}.csv"
 
 
     print("Converted DataFrame:")
@@ -42,8 +42,8 @@ def convert_reverse_scored_items(file_path, file_name="specific_columns"):
 # --- Main execution ---
 if __name__ == "__main__":
     # Run the conversion
-    # file_name = 'DATASETS/DATASET.csv'
-    # convert_reverse_scored_items(file_name)
+    file_name = 'DATASETS/DATASET.csv'
+    convert_reverse_scored_items(file_name)
 
-    file_name = 'DATASETS/DATASET-cement-clean.csv'
-    convert_reverse_scored_items(file_name, "cement_clean")
+    # file_name = 'DATASETS/DATASET-cement-clean.csv'
+    # convert_reverse_scored_items(file_name, "cement_clean")

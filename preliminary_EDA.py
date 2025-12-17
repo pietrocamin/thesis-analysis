@@ -244,9 +244,9 @@ class LikertEDAItemAnalysis:
         
         # Print summary if both methods used
         if method == 'both':
-            print("\n" + "=" * 60)
+            print("\n" + "=" * 80)
             print("CORRELATION METHOD COMPARISON (Pearson vs Spearman)")
-            print("=" * 60)
+            print("=" * 80)
             mean_diff = self.item_total_corr['Difference'].mean()
             max_diff = self.item_total_corr['Difference'].max()
             high_agree = (self.item_total_corr['Agreement'] == 'High').sum()
@@ -397,7 +397,7 @@ class LikertEDAItemAnalysis:
             if corrected_r < min_item_total_r:
                 issues.append(f'Low discrimination (r={corrected_r:.3f})')
             
-            # Check floor/ceiling effects
+            # Check floor/ceiling effects percentages (pct)
             item_stat = self.item_stats[self.item_stats['Item'] == item]
             floor_pct = item_stat[f'Pct_{self.scale_range[0]}'].values[0] / 100
             ceiling_pct = item_stat[f'Pct_{self.scale_range[1]}'].values[0] / 100
@@ -436,9 +436,9 @@ class LikertEDAItemAnalysis:
         figsize : tuple
             Figure size (default: (16, 12))
         """
-        nrows = int(np.ceil(self.n_items / ncols))
-        fig, axes = plt.subplots(nrows, ncols, figsize=figsize)
-        axes = axes.flatten() if self.n_items > 1 else [axes]
+        nrows = int(np.ceil(self.n_items / ncols)) # Calculate number of rows needed
+        fig, axes = plt.subplots(nrows, ncols, figsize=figsize) # Create subplots
+        axes = axes.flatten() if self.n_items > 1 else [axes] # Flatten axes array for easy indexing
         
         for idx, item in enumerate(self.item_cols):
             ax = axes[idx]
@@ -591,9 +591,9 @@ class LikertEDAItemAnalysis:
         """
         Generate comprehensive text report.
         """
-        print("=" * 60)
+        print("=" * 80)
         print("LIKERT SCALE EDA & ITEM ANALYSIS REPORT")
-        print("=" * 60)
+        print("=" * 80)
         print(f"\nSample Size: {self.n_respondents}")
         print(f"Number of Items: {self.n_items}")
         print(f"Scale Range: {self.scale_range[0]} to {self.scale_range[1]}")
@@ -602,9 +602,9 @@ class LikertEDAItemAnalysis:
         if self.item_stats is None:
             self.univariate_statistics()
         
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 80)
         print("UNIVARIATE STATISTICS SUMMARY")
-        print("=" * 60)
+        print("=" * 80)
         print(f"\nOverall Mean: {self.item_stats['Mean'].mean():.3f} (SD={self.item_stats['Mean'].std():.3f})")
         print(f"Mean Range: {self.item_stats['Mean'].min():.3f} to {self.item_stats['Mean'].max():.3f}")
         print(f"Average SD: {self.item_stats['SD'].mean():.3f}")
@@ -612,9 +612,9 @@ class LikertEDAItemAnalysis:
         
         # Floor/ceiling effects
         floor_ceiling_df = self.floor_ceiling_effects()
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 80)
         print("FLOOR AND CEILING EFFECTS")
-        print("=" * 60)
+        print("=" * 80)
         if len(floor_ceiling_df) > 0:
             print(f"\n{len(floor_ceiling_df)} items with floor/ceiling effects (>15%):")
             print(floor_ceiling_df.to_string(index=False))
@@ -625,9 +625,9 @@ class LikertEDAItemAnalysis:
         if self.item_total_corr is None:
             self.item_total_correlations()
         
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 80)
         print("ITEM DISCRIMINATION (CORRECTED ITEM-TOTAL CORRELATIONS)")
-        print("=" * 60)
+        print("=" * 80)
         print(f"\nMean corrected r: {self.item_total_corr['Corrected_Item_Total_r'].mean():.3f}")
         print(f"Range: {self.item_total_corr['Corrected_Item_Total_r'].min():.3f} to {self.item_total_corr['Corrected_Item_Total_r'].max():.3f}")
         
@@ -640,9 +640,9 @@ class LikertEDAItemAnalysis:
         
         # Problematic items
         problematic = self.identify_problematic_items()
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 80)
         print("PROBLEMATIC ITEMS SUMMARY")
-        print("=" * 60)
+        print("=" * 80)
         if len(problematic) > 0:
             print(f"\n{len(problematic)} items flagged with issues:")
             print(problematic.to_string(index=False))
@@ -655,9 +655,9 @@ class LikertEDAItemAnalysis:
         lower_tri = corr_matrix.where(np.tril(np.ones(corr_matrix.shape), k=-1).astype(bool))
         correlations = lower_tri.stack()
         
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 80)
         print("INTER-ITEM CORRELATIONS")
-        print("=" * 60)
+        print("=" * 80)
         print(f"\nMean inter-item correlation: {correlations.mean():.3f}")
         print(f"Range: {correlations.min():.3f} to {correlations.max():.3f}")
         
@@ -668,9 +668,9 @@ class LikertEDAItemAnalysis:
             for (item1, item2), r in high_corr.items():
                 print(f"  {item1} - {item2}: r = {r:.3f}")
         
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 80)
         print("END OF REPORT")
-        print("=" * 60)
+        print("=" * 80)
 
 
 
@@ -679,6 +679,7 @@ if __name__ == "__main__":
     # - Initialize class in an object -
     # Load dataset
     file_name = 'DATASETS/reversed_DATASET.csv'
+    # file_name = 'DATASETS/reversed_DATASET_cement_clean.csv' # alternative dataset
     df = pd.read_csv(file_name)
     
     # Define factor structure
@@ -730,7 +731,7 @@ if __name__ == "__main__":
     item_total = analyzer.item_total_correlations()
     item_total.to_csv('output/preliminary-EDA/item_total_correlations.csv', index=False)
     
-    factor_item_total = analyzer.item_total_by_factor()
+    factor_item_total = analyzer.item_total_by_factor(method='both')
     if factor_item_total is not None:
         factor_item_total.to_csv('output/preliminary-EDA/factor_item_total_correlations.csv', index=False)
     
