@@ -93,9 +93,15 @@ def calculate_inter_factor_correlations(file_name, cleaned=""):
 
 # --- Main execution ---
 if __name__ == "__main__":
-    file_name = 'reversed_DATASET'
+    """
+    Approaches for cleaning the dataset before calculating inter-factor correlations:
+    • "" = Full dataset (no items removed)
+    • "conservative" = Drops A4 ——> SHOWS BEST RESULTS
+    • "moderate" = Drops A4, A7
+    • "aggressive" = Drops C2, A4, A7, HHR2, HHR3
+    """
 
-    # Approach in dropping problematic items ("", "conservative", "moderate", "aggressive")
-    cleaned = "moderate"
+    file_name = 'reversed_DATASET'
+    cleaned = "conservative"  # Options: "", "conservative", "moderate", "aggressive"
 
     calculate_inter_factor_correlations(file_name, cleaned)
