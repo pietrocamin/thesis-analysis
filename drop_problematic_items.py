@@ -8,7 +8,9 @@ df = pd.read_csv(f"DATASETS/{file_name}.csv")
 
 # — Remove problematic items —
 # Specify items to remove — modify list as needed
-items_to_remove = ['A4', 'A7']
+items_to_remove = ['A4'] # conservative removal
+# items_to_remove = ['A4', 'A7'] # moderate removal
+# items_to_remove = ['C2', 'A4', 'A7', 'HHR2', 'HHR3'] # aggressive removal
 
 # Remove items
 df_cleaned = df.drop(columns=items_to_remove)
