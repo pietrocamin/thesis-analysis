@@ -12,7 +12,7 @@ warnings.filterwarnings('ignore')  # Ignore warnings for cleaner output
 # --- Likert EDA and Item Analysis Class ---
 class LikertEDAItemAnalysis:
     """
-    Comprehensive EDA and Item Analysis for Likert scale dataset.
+    Comprehensive exploratory data analysis (EDA) and item analysis for Likert scale dataset.
     
     Parameters:
     -----------
@@ -678,25 +678,61 @@ class LikertEDAItemAnalysis:
 if __name__ == "__main__":
     # - Initialize class in an object -
     # Load dataset
-    file_name = 'DATASETS/reversed_DATASET.csv'
-    # file_name = 'DATASETS/reversed_DATASET_cement_clean.csv' # alternative dataset
-    df = pd.read_csv(file_name)
+    file_name = 'reversed_DATASET.csv'
+    # file_name = 'reversed_DATASET_cement_clean.csv' # alternative dataset
+    df = pd.read_csv(f"DATASETS/{file_name}")
+    cleaning_approach = ''  # '', 'conservative', or 'moderate'
+
     
-    # Define factor structure
-    factor_structure = {
-        'Competence': [f'C{i}' for i in range(1, 8)],
-        'Autonomy': [f'A{i}' for i in range(1, 8)],
-        'HH-Relatedness': [f'HHR{i}' for i in range(1, 5)],
-        'HR-Relatedness': [f'HRR{i}' for i in range(1, 5)]
-    }
-    
-    # Initialize analyzer
-    item_cols = [f'C{i}' for i in range(1, 8)] + \
+    # – Define factor structure –
+    if cleaning_approach == '':
+        df_cleaned = df.copy()
+
+        factor_structure = {
+            'Competence': [f'C{i}' for i in range(1, 8)],
+            'Autonomy': [f'A{i}' for i in range(1, 8)],
+            'HH-Relatedness': [f'HHR{i}' for i in range(1, 5)],
+            'HR-Relatedness': [f'HRR{i}' for i in range(1, 5)]
+        }
+
+        item_cols = [f'C{i}' for i in range(1, 8)] + \
                 [f'A{i}' for i in range(1, 8)] + \
                 [f'HHR{i}' for i in range(1, 5)] + \
                 [f'HRR{i}' for i in range(1, 5)]
+        
+        
+    elif cleaning_approach == 'conservative':
+        df_cleaned = df.drop(columns= ['A4'])
+
+        factor_structure = {
+            'Competence': ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'],
+            'Autonomy': ['A1', 'A2', 'A3', 'A5', 'A6', 'A7'],
+            'HH-Relatedness': ['HHR1', 'HHR2', 'HHR3', 'HHR4'],
+            'HR-Relatedness': ['HRR1', 'HRR2', 'HRR3', 'HRR4']
+        }
+
+        item_cols = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'] + \
+                ['A1', 'A2', 'A3', 'A5', 'A6', 'A7'] + \
+                ['HHR1', 'HHR2', 'HHR3', 'HHR4'] + \
+                ['HRR1', 'HRR2', 'HRR3', 'HRR4']
+        
+    elif cleaning_approach == 'moderate':
+        df_cleaned = df.drop(columns= ['A4', 'A7'])
+
+        factor_structure = {
+            'Competence': ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'],
+            'Autonomy': ['A1', 'A2', 'A3', 'A5', 'A6'],
+            'HH-Relatedness': ['HHR1', 'HHR2', 'HHR3', 'HHR4'],
+            'HR-Relatedness': ['HRR1', 'HRR2', 'HRR3', 'HRR4']
+        }
+
+        item_cols = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'] + \
+                ['A1', 'A2', 'A3', 'A5', 'A6'] + \
+                ['HHR1', 'HHR2', 'HHR3', 'HHR4'] + \
+                ['HRR1', 'HRR2', 'HRR3', 'HRR4']
     
-    analyzer = LikertEDAItemAnalysis(df, item_cols, factor_structure, scale_range=(1, 5))
+    # Initialize analyzer
+    analyzer = LikertEDAItemAnalysis(df_cleaned, item_cols, factor_structure, scale_range=(1, 5))
     
 
     # - Generate comprehensive report -
@@ -705,7 +741,8 @@ if __name__ == "__main__":
 
     # - Create visualizations -
     print("\nGenerating plots...")
-    
+    os.makedirs('images/preliminary-EDA', exist_ok=True)
+
     # Univariate distributions
     fig_univariate = analyzer.plot_univariate_distributions()
     plt.savefig('images/preliminary-EDA/item_distributions.png', dpi=300, bbox_inches='tight', pad_inches=0.05)

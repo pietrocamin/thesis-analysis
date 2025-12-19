@@ -71,7 +71,7 @@ Generation based on the following principles of realistic human response pattern
 This new dataset will be a more rigorous and realistic test for your validation scripts.
 The model poorly fits the CFA.
 
-## good-dit-dataset.csv
+## good-fit-dataset.csv
 Generation principles:
     1. Strong but Imperfect Internal Consistency: Items within a factor will be highly correlated (leading to good Cronbach's Alpha, e.g., > 0.80), but with slightly more noise than the "perfect" dataset. A respondent with a high "true score" on a factor will generally score high on its items, but might rate one or two items a bit lower.
     2. Minor Model Misspecification: This is the key. I will introduce very subtle relationships that the simple CFA model does not account for. For example, I might create a tiny correlation between the error terms of two specific items (e.g., C3 and HHR2). This is a realistic scenario where two items might share some unique variance outside of their parent factors (e.g., due to similar wording). The CFA model assumes these are uncorrelated, so this small violation will degrade the fit from "perfect" to "good" without breaking the model entirely.
