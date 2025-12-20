@@ -1,3 +1,7 @@
+import warnings
+# Ignore the specific scikit-learn deprecation warning — might have to update pixi.toml in the future
+warnings.filterwarnings("ignore", message=".*'force_all_finite' was renamed to 'ensure_all_finite'.*")
+
 import pandas as pd
 import numpy as np
 import os
@@ -100,13 +104,12 @@ if __name__ == "__main__":
         # - Save results -
         output_dir = 'output/reliability'
         os.makedirs(output_dir, exist_ok=True)
-        base_name = file_name.replace('.csv', '')
 
-        results_df.to_csv(f"{output_dir}/reliability_report_omega_{base_name}.csv", index=False)
-        well_being_results.to_csv(f"{output_dir}/reliability_report_omega_WB_{base_name}.csv", index=False)
-        well_being_results_SDT.to_csv(f"{output_dir}/reliability_report_omega_WB_SDT_{base_name}.csv", index=False)
+        results_df.to_csv(f"{output_dir}/reliability_report_omega_{file_name}", index=False)
+        well_being_results.to_csv(f"{output_dir}/reliability_report_omega_WB_{file_name}", index=False)
+        well_being_results_SDT.to_csv(f"{output_dir}/reliability_report_omega_WB_SDT_{file_name}", index=False)
 
         print("\nAll reliability reports with 95% CIs generated successfully.")
-        print(results_df) # Visual confirmation in console
+        print(results_df) # visual confirmation in console
     else:
         print(f"Error: File not found at {path}")

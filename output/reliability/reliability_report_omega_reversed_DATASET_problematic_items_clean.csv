@@ -1,5 +1,5 @@
-Factor,McDonalds_Omega,Items
-Competence,0.74,7
-Autonomy,0.63,5
-HH-Rel,0.523,4
-HR-Rel,0.601,4
+Factor,McDonalds_Omega,95% CI Lower,95% CI Upper,Items,Boot_Iterations
+Competence,0.74,0.663,0.802,7,1000
+Autonomy,0.63,0.535,0.71,5,1000
+HH-Rel,0.523,0.44,0.625,4,1000
+HR-Rel,0.601,0.483,0.691,4,1000
