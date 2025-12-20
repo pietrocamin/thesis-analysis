@@ -78,13 +78,14 @@ if __name__ == "__main__":
         'Global (4 factors)': items_c + items_a + items_hhr + items_hrr
     }
 
+    # Calculate internal consistency reliability with Cronbach's Alpha
     results_df = get_reliability_report(df, factor_definitions)
     print(results_df)
 
     # Save results to CSV
-    os.makedirs('output', exist_ok=True)
-    results_df.to_csv(f"output/reliability_report_alpha_{file_name.replace('.csv', '')}.csv", index=False)
-    print(f"Reliability report saved to: output/reliability_report_alpha_{file_name.replace('.csv', '')}.csv")
+    os.makedirs('output/reliability', exist_ok=True)
+    results_df.to_csv(f"output/reliability/reliability_report_alpha_{file_name.replace('.csv', '')}.csv", index=False)
+    print(f"Reliability report saved to: output/reliability/reliability_report_alpha_{file_name.replace('.csv', '')}.csv")
 
     # 3. Generate and save visualizations
     os.makedirs('images/reliability-report', exist_ok=True)
@@ -93,10 +94,10 @@ if __name__ == "__main__":
     plot_item_total_correlation(df, items_a, "Autonomy")
     plot_item_total_correlation(df, items_hhr, "HH-Relatedness")
     plot_item_total_correlation(df, items_hrr, "HR-Relatedness")
-    plot_item_total_correlation(df, items_c + items_a + items_hhr, "Global (C+A+HHR)")
-    plot_item_total_correlation(df, items_c + items_a + items_hhr + items_hrr, "Global (4 factors)")
+    plot_item_total_correlation(df, items_c + items_a + items_hhr, "Global (C+A+HHR)") # this doesn't make much sense since the reliability should be artificially innflated by combining items from different factors
+    plot_item_total_correlation(df, items_c + items_a + items_hhr + items_hrr, "Global (4 factors)") # this doesn't make much sense since the reliability should be artificially innflated by combining items from different factors
     
-    all_ordered_items = items_c + items_a + items_hhr + items_hrr
+    all_ordered_items = items_c + items_a + items_hhr + items_hrr # this doesn't make much sense since the reliability should be artificially innflated by combining items from different factors
     plot_grouped_heatmap(df, all_ordered_items)
 
     print("Reliability visualizations saved in: images/reliability-report/")
