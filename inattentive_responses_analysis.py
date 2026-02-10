@@ -20,6 +20,8 @@ def detect_omogeneous_values(file_path):
         'HRR':[f'HRR{i}' for i in range(1, 5)],
     }
 
+    print("\n--- Omogeneus values analysis ---")
+
     results = []
     for _, row in df.iterrows():
         rID = row.get('Respondent_ID', None)
@@ -46,7 +48,7 @@ def detect_omogeneous_values(file_path):
 
 
 # -- Find longest string of identical consecutive responses --
-def longest_sequence_length(file_path, threshold=0):
+def long_string_analysis(file_path, threshold=0):
         """
         Calculate longest string of identical consecutive responses in the DataFrame for each respondent.
         A threshold can be set to filter results.
@@ -61,6 +63,9 @@ def longest_sequence_length(file_path, threshold=0):
         # Read the dataset into a pandas DataFrame
         df = pd.read_csv(file_path)
         results = [] # empty list to store results
+
+        print("\n--- Long-string analysis ---")
+        print(f"Analyzing longest sequence of identical responses with threshold: {threshold}")
 
         for index, row in df.iterrows():
             longest_length = 1
@@ -98,8 +103,8 @@ def longest_sequence_length(file_path, threshold=0):
         os.makedirs('output', exist_ok=True)
 
         # Save results to CSV
-        dfResults.to_csv('output/longest_sequence_length.csv', index=False) # save without index
-        print(f"Results above threshold of {threshold} have been saved to 'output/longest_sequence_length.csv'")
+        dfResults.to_csv('output/long_string_analysis.csv', index=False) # save without index
+        print(f"Results above threshold have been saved to 'output/long_string_analysis.csv'")
 
         return dfResults
 
@@ -125,20 +130,6 @@ def compute_IRV_and_filter_inattentive(file_path, lower_threshold=0.5, upper_thr
         inattentive_df [pandas.DataFrame]: A DataFrame containing the 'inattentive' respondents,
                                            with their calculated IRV included.
     """
-    # # Read the dataset into a pandas DataFrame
-    # df = pd.read_csv(file_path)
-
-    # # Select the response columns
-    # response_columns = df.columns[1:]
-
-    # # Calculate IRV (which is the standard deviation) for each respondent
-    # df['IRV'] = df[response_columns].std(axis=1)
-
-    # # Filter results based on the specified bounds
-    # filtered_results = df[(df['IRV'] >= lower_thrashold) & (df['IRV'] <= upper_thrashold)]
-
-    # # Display the results
-    # print(filtered_results[['Respondent_ID', 'IRV']])
 
     # Read the dataset into a pandas DataFrame, catching file not found error
     try:
@@ -182,6 +173,6 @@ if __name__ == "__main__":
     
     # - Visualise homogeneous values for "hand" detection in the dataset before negative-item manipulation -
     detect_omogeneous_values(file_name) # visualise constant factors on dataset before addressing negative items
-    longest_sequence_length(file_name, 5) # to filter, add [int] parameter; 0 is default (no filter)
+    long_string_analysis(file_name, 5) # to filter, add [int] parameter; 0 is default (no filter)
     compute_IRV_and_filter_inattentive(file_name, 0.8, 1.7) # visualise constant factors on dataset before addressing negative items
 
