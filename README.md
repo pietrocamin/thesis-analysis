@@ -10,7 +10,7 @@
 - **inattentive_responses_analysis.py**: analysis for the identification of careless respondents.
 - **outliers_analysis**: analysis for the identification of outliers.
 - **analyze_data.py**: calculates descriptive statistics, such as item means and standard deviations, for each item and factor.
-- **preliminary_EDA**: exploratory data analysis aiminng at identifying the 
+- **preliminary_EDA**: exploratory data analysis to identify items capable of measuring the respective factor.
 - **model_identification.py**: calculates the Spearman inter-factor correlations to identify the structure of the model (i.e., how each factor correlates with each other), dropping problematic items.
 - **drop_problematic_items**: saves a dataset without the identified problematic items.
 - **cfa_analysis.py**: runs the CFA.
