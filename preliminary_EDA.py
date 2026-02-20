@@ -667,6 +667,8 @@ class LikertEDAItemAnalysis:
             print(f"\n{len(high_corr)} item pairs with very high correlations (r > 0.85):")
             for (item1, item2), r in high_corr.items():
                 print(f"  {item1} - {item2}: r = {r:.3f}")
+        else:
+            print("\nNo item pairs show very high correlations (r > 0.85).")
         
         print("\n" + "=" * 80)
         print("END OF REPORT")
@@ -771,6 +773,10 @@ if __name__ == "__main__":
     factor_item_total = analyzer.item_total_by_factor(method='both')
     if factor_item_total is not None:
         factor_item_total.to_csv('output/preliminary-EDA/factor_item_total_correlations.csv', index=False)
+    
+    inter_item_correlation_matrix = analyzer.inter_item_correlation_matrix()
+    if inter_item_correlation_matrix is not None:
+        inter_item_correlation_matrix.to_csv('output/preliminary-EDA/inter_item_correlation_matrix.csv', index=False)
     
     problematic = analyzer.identify_problematic_items()
     if len(problematic) > 0:
