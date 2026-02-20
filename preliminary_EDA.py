@@ -598,6 +598,7 @@ class LikertEDAItemAnalysis:
         print(f"Number of Items: {self.n_items}")
         print(f"Scale Range: {self.scale_range[0]} to {self.scale_range[1]}")
         
+
         # Univariate statistics
         if self.item_stats is None:
             self.univariate_statistics()
@@ -621,6 +622,7 @@ class LikertEDAItemAnalysis:
         else:
             print("\nNo significant floor or ceiling effects detected.")
         
+
         # Item-total correlations
         if self.item_total_corr is None:
             self.item_total_correlations()
@@ -638,6 +640,54 @@ class LikertEDAItemAnalysis:
         else:
             print("\nAll items show adequate discrimination.")
         
+
+        # Inter-item correlations
+        corr_matrix = self.inter_item_correlation_matrix()
+        # Get lower triangle (excluding diagonal)
+        lower_tri = corr_matrix.where(np.tril(np.ones(corr_matrix.shape), k=-1).astype(bool))
+        correlations = lower_tri.stack() # Get all pairwise correlations as a Series with MultiIndex (item1, item2)
+        
+        print("\n" + "=" * 80)
+        print("INTER-ITEM CORRELATIONS")
+        print("=" * 80)
+        print(f"\nMean inter-item correlation: {correlations.mean():.3f}")
+        print(f"Range: {correlations.min():.3f} to {correlations.max():.3f}")
+
+        corr_below_20 = correlations[correlations < 0.20]
+        if len(corr_below_20) > 0:
+            print(f"\n{len(corr_below_20)} item pairs with very low correlations (r < 0.20)")
+            print(f"{len(corr_below_20)/len(correlations)*100:.1f}% of all item pairs show very low correlations, which may indicate they do not measure the same construct.")
+            
+            # Show item pairs with lowest correlations
+            # for (item1, item2), r in corr_below_20.items():
+            #     print(f"  {item1} - {item2}: r = {r:.3f}")
+        else:
+            print("\nNo item pairs show very low correlations (r < 0.20).")
+
+        corr_between_20_70 = correlations[(correlations >= 0.20) & (correlations <= 0.70)]
+        if len(corr_between_20_70) > 0:
+            print(f"\n{len(corr_between_20_70)} item pairs with moderate correlations (0.20 ≤ r ≤ 0.70)")
+            print(f"{len(corr_between_20_70)/len(correlations)*100:.1f}% of all item pairs show moderate correlations, which is expected for well-designed Likert items measuring the same construct.")
+        else:
+            print("\nNo item pairs show moderate correlations (0.20 ≤ r ≤ 0.70). This may indicate issues with item design.")
+        
+        corr_above_70 = correlations[correlations > 0.70]
+        if len(corr_above_70) > 0:
+            print(f"\n{len(corr_above_70)} item pairs with high correlations (r > 0.70)")
+            print(f"{len(corr_above_70)/len(correlations)*100:.1f}% of all item pairs show high correlations, which may indicate they measure very similar content.")
+        else:
+            print("\nNo item pairs show high correlations (r > 0.70). This may indicate good item diversity.")
+
+        # Flag very high correlations (potential redundancy)
+        high_corr = correlations[correlations > 0.85]
+        if len(high_corr) > 0:
+            print(f"\n{len(high_corr)} item pairs with very high correlations (r > 0.85):")
+            for (item1, item2), r in high_corr.items():
+                print(f"  {item1} - {item2}: r = {r:.3f}")
+        else:
+            print("\nNo item pairs show very high correlations (r > 0.85).")
+
+
         # Problematic items
         problematic = self.identify_problematic_items()
         print("\n" + "=" * 80)
@@ -648,27 +698,6 @@ class LikertEDAItemAnalysis:
             print(problematic.to_string(index=False))
         else:
             print("\nNo problematic items identified.")
-        
-        # Inter-item correlations
-        corr_matrix = self.inter_item_correlation_matrix()
-        # Get lower triangle (excluding diagonal)
-        lower_tri = corr_matrix.where(np.tril(np.ones(corr_matrix.shape), k=-1).astype(bool))
-        correlations = lower_tri.stack()
-        
-        print("\n" + "=" * 80)
-        print("INTER-ITEM CORRELATIONS")
-        print("=" * 80)
-        print(f"\nMean inter-item correlation: {correlations.mean():.3f}")
-        print(f"Range: {correlations.min():.3f} to {correlations.max():.3f}")
-        
-        # Flag very high correlations (potential redundancy)
-        high_corr = correlations[correlations > 0.85]
-        if len(high_corr) > 0:
-            print(f"\n{len(high_corr)} item pairs with very high correlations (r > 0.85):")
-            for (item1, item2), r in high_corr.items():
-                print(f"  {item1} - {item2}: r = {r:.3f}")
-        else:
-            print("\nNo item pairs show very high correlations (r > 0.85).")
         
         print("\n" + "=" * 80)
         print("END OF REPORT")
