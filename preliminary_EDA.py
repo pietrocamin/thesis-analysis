@@ -776,7 +776,7 @@ if __name__ == "__main__":
     
     inter_item_correlation_matrix = analyzer.inter_item_correlation_matrix()
     if inter_item_correlation_matrix is not None:
-        inter_item_correlation_matrix.to_csv('output/preliminary-EDA/inter_item_correlation_matrix.csv', index=False)
+        inter_item_correlation_matrix.to_csv('output/preliminary-EDA/inter_item_correlation_matrix.csv', index=True)
     
     problematic = analyzer.identify_problematic_items()
     if len(problematic) > 0:
