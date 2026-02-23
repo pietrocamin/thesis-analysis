@@ -672,7 +672,7 @@ class LikertEDAItemAnalysis:
             print("\nNo significant floor or ceiling effects detected.")
         
 
-        # Item-total correlations
+        # - Item-total correlations -
         if self.item_total_corr is None:
             self.corrected_item_total_correlations()
         
@@ -690,14 +690,14 @@ class LikertEDAItemAnalysis:
             print("\nAll items show adequate discrimination.")
         
 
-        # Inter-item correlations
+        # - Inter-item correlations -
         corr_matrix = self.inter_item_correlation_matrix()
         # Get lower triangle (excluding diagonal)
         lower_tri = corr_matrix.where(np.tril(np.ones(corr_matrix.shape), k=-1).astype(bool))
         correlations = lower_tri.stack() # Get all pairwise correlations as a Series with MultiIndex (item1, item2)
         
         print("\n" + "=" * 80)
-        print("INTER-ITEM CORRELATIONS")
+        print("INTER-ITEM CORRELATIONS (TOTAL)")
         print("=" * 80)
         if len(correlations) > 0:
             print(f"\nTotal item pairs: {len(correlations)}")
@@ -734,11 +734,32 @@ class LikertEDAItemAnalysis:
             mean_abs_corr_S = self.inter_item_absolute_mean_correlation_single_item_Spearman(item)
             print(f"{item}: {mean_abs_corr_S:.3f}")
 
+        print("\n" + "=" * 80)
+        print("INTER-ITEM CORRELATIONS BY FACTOR")
+        print("=" * 80)
+        factor_corrs = self.inter_item_correlation_matrix_by_factor()
+        if factor_corrs is not None:
+            for factor_name, corr_matrix in factor_corrs.items():
+                lower_tri = corr_matrix.where(np.tril(np.ones(corr_matrix.shape), k=-1).astype(bool))
+                correlations = lower_tri.stack()
+                print(f"\nFactor: {factor_name}")
+                print(f"• Mean inter-item correlation: {correlations.mean():.3f}")
+                print(f"• Range: {correlations.min():.3f} to {correlations.max():.3f}")
+                print(f"• Standard deviation of inter-item correlations: {correlations.std():.3f}")
 
-        # Problematic items
+            print("\nInter-item absolute mean correlation for each item (Spearman):")
+            for factor_name, corr_matrix in factor_corrs.items():
+                for item in corr_matrix.columns:
+                    mean_abs_corr_S = corr_matrix[item].drop(item).abs().mean()
+                    print(f"{factor_name} - {item}: {mean_abs_corr_S}")
+        else:
+            print("\nNo factor structure provided, skipping factor-level inter-item correlation analysis.")
+
+
+        # - Problematic items -
         problematic = self.identify_problematic_items()
         print("\n" + "=" * 80)
-        print("PROBLEMATIC ITEMS SUMMARY")
+        print("PROBLEMATIC ITEMS SUMMARY (manually look at CSV files for better discrimination: this section has not been updated for a whiile)")
         print("=" * 80)
         if len(problematic) > 0:
             print(f"\n{len(problematic)} items flagged with issues:")
