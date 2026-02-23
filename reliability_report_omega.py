@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
         items_dict = {
             'Competence': ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'],
-            'Autonomy': ['A1', 'A2', 'A3', 'A5', 'A6'],
+            'Autonomy': ['A1', 'A2', 'A3', 'A5', 'A6', 'A7'],
             'HH-Rel': ['HHR1', 'HHR2', 'HHR3', 'HHR4'],
             'HR-Rel': ['HRR1', 'HRR2', 'HRR3', 'HRR4']
         }
