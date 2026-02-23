@@ -148,8 +148,9 @@ class LikertEDAItemAnalysis:
         return floor_ceiling_df
 
 
+    ### CORRECTED ITEM-TOTAL CORRELATIONS ###
     # -- Item-Total Correlations --
-    def item_total_correlations(self, method='spearman'):
+    def corrected_item_total_correlations(self, method='spearman'):
         """
         Calculate item-total correlations (uncorrected and corrected).
         • Uncorrected item-total correlation: correlation between item and total score.
@@ -274,8 +275,8 @@ class LikertEDAItemAnalysis:
         return self.item_total_corr
 
 
-    # -- Factor-level Item-Total Correlations --
-    def item_total_by_factor(self, method='spearman'):
+    # -- Factor-level Corrected Item-Total Correlations --
+    def corrected_item_total_by_factor(self, method='spearman'):
         """
         Calculate item-total correlations within each factor.
         
@@ -343,23 +344,69 @@ class LikertEDAItemAnalysis:
         return pd.DataFrame(factor_correlations)
 
 
-    # -- Inter-Item Correlation Matrix --
+    ### INTER ITEM CORRELATIONS ###
+    # -- Inter-Item Correlation Matrix of all the items using Spearman correlation --
     def inter_item_correlation_matrix(self):
         """
-        Calculate inter-item correlation matrix.
-        Inter-item correlations help identify redundancy or poor items.
-        If many items correlate very highly (e.g., r > 0.85), they may be redundant.
-        If items show very low correlations (e.g., r < 0.20), they may not measure the same construct.
-        The expected range for well-designed Likert items is typically 0.30 to 0.70.
+        Calculate inter-item correlation matrix using Spearman correlation.
         
         Returns:
         --------
         pd.DataFrame : Correlation matrix
         """
-        corr_matrix = self.data[self.item_cols].corr()
+        corr_matrix = self.data[self.item_cols].corr(method='spearman')
         return corr_matrix
+    
+
+    # -- Inter-item correlation matrix for each factor using Spearman correlation --
+    def inter_item_correlation_matrix_by_factor(self):
+        """
+        Calculate inter-item correlation matrices for each factor using Spearman correlation.
+        
+        Returns:
+        --------
+        dict : Dictionary of Spearman correlation matrices by factor
+        """
+        if self.factor_structure is None:
+            print("No factor structure provided. Skipping factor-level inter-item correlations.")
+            return None
+        
+        factor_corr_matrices = {}
+        
+        for factor_name, items in self.factor_structure.items():
+            corr_matrix = self.data[items].corr(method='spearman')
+            factor_corr_matrices[factor_name] = corr_matrix
+        
+        return factor_corr_matrices
 
 
+    # -- Calculate the inter-item mean correlation on a single item --
+    def inter_item_absolute_mean_correlation_single_item_Spearman(self, item):
+        """
+        Calculate the mean absolute inter-item correlation for a single item using Spearman correlation.
+        This is the average of the absolute correlations between the specified item and all other items.
+        
+        Parameters:
+        -----------
+        item : str
+            The item for which to calculate the mean absolute inter-item correlation
+        
+        Returns:
+        --------
+        float : Mean absolute inter-item correlation for the specified item
+        """
+        corr_matrix = self.data[self.item_cols].corr(method='spearman')
+        
+        # Get correlations for the specified item, excluding self-correlation
+        item_corrs = corr_matrix[item].drop(item)
+        
+        # Calculate mean absolute correlation
+        mean_abs_corr = item_corrs.abs().mean()
+        
+        return mean_abs_corr
+
+
+    ### PROBLEMATIC ITEM IDENTIFICATION ###
     # -- Identify Problematic Items --
     def identify_problematic_items(self, min_item_total_r=0.30, max_floor_ceiling=0.15):
         """
@@ -383,7 +430,7 @@ class LikertEDAItemAnalysis:
         if self.item_stats is None:
             self.univariate_statistics()
         if self.item_total_corr is None:
-            self.item_total_correlations()
+            self.corrected_item_total_correlations()
         
         problematic = []
         
@@ -417,6 +464,7 @@ class LikertEDAItemAnalysis:
                     'Item': item,
                     'Issues': '; '.join(issues),
                     'Corrected_r': corrected_r,
+                    'Inter-Item_Absolute_Mean_Spearman': self.inter_item_absolute_mean_correlation_single_item_Spearman(item),
                     'Mean': item_stat['Mean'].values[0],
                     'SD': sd
                 })
@@ -424,6 +472,7 @@ class LikertEDAItemAnalysis:
         return pd.DataFrame(problematic)
 
 
+    ### PLOTTING ###
     # -- Plotting Functions --
     def plot_univariate_distributions(self, ncols=4, figsize=(16, 12)):
         """
@@ -475,7 +524,7 @@ class LikertEDAItemAnalysis:
         if self.item_stats is None:
             self.univariate_statistics()
         if self.item_total_corr is None:
-            self.item_total_correlations()
+            self.corrected_item_total_correlations()
         
         fig = plt.figure(figsize=figsize)
         gs = fig.add_gridspec(3, 2, hspace=0.3, wspace=0.3)
@@ -625,7 +674,7 @@ class LikertEDAItemAnalysis:
 
         # Item-total correlations
         if self.item_total_corr is None:
-            self.item_total_correlations()
+            self.corrected_item_total_correlations()
         
         print("\n" + "=" * 80)
         print("ITEM DISCRIMINATION (CORRECTED ITEM-TOTAL CORRELATIONS)")
@@ -650,42 +699,40 @@ class LikertEDAItemAnalysis:
         print("\n" + "=" * 80)
         print("INTER-ITEM CORRELATIONS")
         print("=" * 80)
-        print(f"\nMean inter-item correlation: {correlations.mean():.3f}")
-        print(f"Range: {correlations.min():.3f} to {correlations.max():.3f}")
+        if len(correlations) > 0:
+            print(f"\nTotal item pairs: {len(correlations)}")
+            print(f"Mean inter-item correlation: {correlations.mean():.3f}")
+            print(f"Range: {correlations.min():.3f} to {correlations.max():.3f}")
+            print(f"Standard deviation of inter-item correlations: {correlations.std():.3f}")
+            print(f"Median inter-item correlation is {correlations.median():.3f}")
 
-        corr_below_20 = correlations[correlations < 0.20]
-        if len(corr_below_20) > 0:
-            print(f"\n{len(corr_below_20)} item pairs with very low correlations (r < 0.20)")
-            print(f"{len(corr_below_20)/len(correlations)*100:.1f}% of all item pairs show very low correlations, which may indicate they do not measure the same construct.")
+
+            if len(correlations[correlations < 0.20]) > 0:
+                print(f"\nItem pairs with r < 0.20: {len(correlations[correlations < 0.20])} ({(correlations < 0.20).mean() * 100:.1f}%)")
+            else:
+                print("\nNo item pairs show very low correlations (r < 0.20).")
+
+            if len(correlations[(correlations >= 0.20) & (correlations <= 0.70)]) > 0:
+                print(f"\nItem pairs with 0.20 ≤ r ≤ 0.70: {len(correlations[(correlations >= 0.20) & (correlations <= 0.70)])} ({((correlations >= 0.20) & (correlations <= 0.70)).mean() * 100:.1f}%)")
+            else:
+                print("\nNo item pairs show moderate correlations (0.20 ≤ r ≤ 0.70). This may indicate issues with item design.")
+                
+            if len(correlations[correlations > 0.70]) > 0:
+                print(f"\nItem pairs with r > 0.70: {len(correlations[correlations > 0.70])} ({(correlations > 0.70).mean() * 100:.1f}%)")
+            else:
+                print("\nNo item pairs show high correlations (r > 0.70). This may indicate good item diversity.")
             
-            # Show item pairs with lowest correlations
-            # for (item1, item2), r in corr_below_20.items():
-            #     print(f"  {item1} - {item2}: r = {r:.3f}")
+            if len(correlations[correlations > 0.85]) > 0:
+                print(f"Moreover, {len(correlations[correlations > 0.85])} item pairs show very high correlations (r > 0.85) ({(correlations > 0.85).mean() * 100:.1f}% of all item pairs). This may indicate redundant items.")
+            else:
+                print("\nNo item pairs show very high correlations (r > 0.85). This may indicate good item diversity.")
         else:
-            print("\nNo item pairs show very low correlations (r < 0.20).")
+            print("\nNot enough items to calculate inter-item correlations.")
 
-        corr_between_20_70 = correlations[(correlations >= 0.20) & (correlations <= 0.70)]
-        if len(corr_between_20_70) > 0:
-            print(f"\n{len(corr_between_20_70)} item pairs with moderate correlations (0.20 ≤ r ≤ 0.70)")
-            print(f"{len(corr_between_20_70)/len(correlations)*100:.1f}% of all item pairs show moderate correlations, which is expected for well-designed Likert items measuring the same construct.")
-        else:
-            print("\nNo item pairs show moderate correlations (0.20 ≤ r ≤ 0.70). This may indicate issues with item design.")
-        
-        corr_above_70 = correlations[correlations > 0.70]
-        if len(corr_above_70) > 0:
-            print(f"\n{len(corr_above_70)} item pairs with high correlations (r > 0.70)")
-            print(f"{len(corr_above_70)/len(correlations)*100:.1f}% of all item pairs show high correlations, which may indicate they measure very similar content.")
-        else:
-            print("\nNo item pairs show high correlations (r > 0.70). This may indicate good item diversity.")
-
-        # Flag very high correlations (potential redundancy)
-        high_corr = correlations[correlations > 0.85]
-        if len(high_corr) > 0:
-            print(f"\n{len(high_corr)} item pairs with very high correlations (r > 0.85):")
-            for (item1, item2), r in high_corr.items():
-                print(f"  {item1} - {item2}: r = {r:.3f}")
-        else:
-            print("\nNo item pairs show very high correlations (r > 0.85).")
+        print("\nInter-item absolute mean correlation for each item (Spearman):")
+        for item in self.item_cols:
+            mean_abs_corr_S = self.inter_item_absolute_mean_correlation_single_item_Spearman(item)
+            print(f"{item}: {mean_abs_corr_S:.3f}")
 
 
         # Problematic items
@@ -796,16 +843,21 @@ if __name__ == "__main__":
     statistics = analyzer.univariate_statistics()
     statistics.to_csv('output/preliminary-EDA/item_statistics.csv', index=False)
     
-    item_total = analyzer.item_total_correlations()
+    item_total = analyzer.corrected_item_total_correlations()
     item_total.to_csv('output/preliminary-EDA/item_total_correlations.csv', index=False)
     
-    factor_item_total = analyzer.item_total_by_factor(method='both')
+    factor_item_total = analyzer.corrected_item_total_by_factor(method='both')
     if factor_item_total is not None:
         factor_item_total.to_csv('output/preliminary-EDA/factor_item_total_correlations.csv', index=False)
     
     inter_item_correlation_matrix = analyzer.inter_item_correlation_matrix()
     if inter_item_correlation_matrix is not None:
         inter_item_correlation_matrix.to_csv('output/preliminary-EDA/inter_item_correlation_matrix.csv', index=True)
+    
+    inter_item_correlation_matrix_by_factor = analyzer.inter_item_correlation_matrix_by_factor()
+    if inter_item_correlation_matrix_by_factor is not None:
+        for factor_name, corr_matrix in inter_item_correlation_matrix_by_factor.items():
+            corr_matrix.to_csv(f'output/preliminary-EDA/inter_item_correlation_matrix_{factor_name}.csv', index=True)
     
     problematic = analyzer.identify_problematic_items()
     if len(problematic) > 0:
