@@ -1,5 +1,9 @@
-Factor,McDonalds_Omega,95% CI Lower,95% CI Upper,Items,Boot_Iterations
-Competence,0.74,0.662,0.8,7,1000
-Autonomy,0.634,0.542,0.709,6,1000
-HH-Rel,0.523,0.426,0.62,4,1000
-HR-Rel,0.601,0.493,0.692,4,1000
+Scale,McDonalds_Omega,95% CI Lower,95% CI Upper,Item count,Boot_Iterations
+Competence,0.74,0.66,0.801,7,1000
+Autonomy,0.634,0.529,0.714,6,1000
+HH-Rel,0.523,0.432,0.623,4,1000
+HR-Rel,0.601,0.491,0.692,4,1000
+Well-Being (All Items),0.83,0.786,0.865,21,1000
+"Well-Being (C, A, HHR)",0.822,0.773,0.857,17,1000
+"Well-Being (C, A)",0.801,0.749,0.841,13,1000
+"Well-Being (C, A, HRR)",0.807,0.754,0.847,17,1000
