@@ -751,7 +751,7 @@ class LikertEDAItemAnalysis:
             for factor_name, corr_matrix in factor_corrs.items():
                 for item in corr_matrix.columns:
                     mean_abs_corr_S = corr_matrix[item].drop(item).abs().mean()
-                    print(f"{factor_name} - {item}: {mean_abs_corr_S}")
+                    print(f"{factor_name} - {item}: {mean_abs_corr_S:.3f}")
         else:
             print("\nNo factor structure provided, skipping factor-level inter-item correlation analysis.")
 
@@ -799,7 +799,7 @@ if __name__ == "__main__":
                 [f'HHR{i}' for i in range(1, 5)] + \
                 [f'HRR{i}' for i in range(1, 5)]
         
-        
+
     elif cleaning_approach == 'conservative':
         df_cleaned = df.drop(columns= ['A4'])
 
