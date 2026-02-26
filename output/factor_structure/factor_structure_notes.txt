@@ -1,0 +1,7 @@
+=== ROTATION JUSTIFICATION ===
+6 of 6 factor pairs show significant correlations at r >= 0.2 (100% of pairs). Oblique rotation (Oblimin or Promax) is recommended for EFA, as inter-factor correlations are consistent with a higher-order WB construct.
+
+=== HIERARCHICAL MODEL ASSESSMENT ===
+Mean inter-factor |r| = 0.381 (range: 0.271–0.534)
+Significant pairs: 6/6
+Inter-factor correlations are moderate and mostly significant, providing preliminary support for a higher-order WB factor. This is consistent with the hypothesised hierarchical model.

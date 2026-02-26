@@ -1,0 +1,5 @@
+,Competence,Autonomy,HH-Relatedness,HR-Relatedness
+Competence,1.0,0.5337,0.4221,0.2706
+Autonomy,0.5337,1.0,0.3982,0.3359
+HH-Relatedness,0.4221,0.3982,1.0,0.3279
+HR-Relatedness,0.2706,0.3359,0.3279,1.0

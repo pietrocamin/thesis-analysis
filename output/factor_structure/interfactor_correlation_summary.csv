@@ -1,0 +1,7 @@
+Factor A,Factor B,Spearman_r,p_value,Significant (p < .05),Interpretation
+Competence,Autonomy,0.5337,0.0,Yes,Strong
+Competence,HH-Relatedness,0.4221,0.0,Yes,Moderate
+Competence,HR-Relatedness,0.2706,0.000187,Yes,Weak
+Autonomy,HH-Relatedness,0.3982,0.0,Yes,Moderate
+Autonomy,HR-Relatedness,0.3359,3e-06,Yes,Moderate
+HH-Relatedness,HR-Relatedness,0.3279,5e-06,Yes,Moderate
