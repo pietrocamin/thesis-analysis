@@ -14,8 +14,8 @@
 - **drop_problematic_items.py**: saves a dataset without the identified problematic items.
 - **factor_structure_evaluation.py**: computes the inter-factor correlations with Spearman and outputs a report.
 - **model_identification.py**: calculates the Spearman inter-factor correlations to identify the structure of the model (i.e., how each factor correlates with each other), dropping problematic items—superfluous in the final procedure.
-- **efa_analysis.r**: runs the EFA.
-- **cfa_analysis.r**: runs the CFA.
+- **efa_analysis.r**: runs the Exploratory Factor Analysis (EFA).
+- **cfa_analysis.r**: runs the Confirmatory Factor Analysis (CFA).
 
 ### Datasets
 - **RAW_DATASET**: dataset cleaned of "totally agree" item check.
