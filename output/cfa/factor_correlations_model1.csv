@@ -1,0 +1,5 @@
+Factor,Competence,Autonomy,HHR,HRR,Model
+Competence,1,0.8064,0.7488,0.5247,Model 1: Theoretical
+Autonomy,0.8064,1,0.7149,0.5009,Model 1: Theoretical
+HHR,0.7488,0.7149,1,0.4652,Model 1: Theoretical
+HRR,0.5247,0.5009,0.4652,1,Model 1: Theoretical

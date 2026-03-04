@@ -1,0 +1,21 @@
+Factor,Item,Std_Loading,SE,Z,p_value,CI_lower,CI_upper,Model,Sig
+SelfDetermination,C1,0.6184,0.0525,11.7737,0,0.5155,0.7214,Model 4: Two-Factor,***
+SelfDetermination,C2,0.4245,0.0663,6.3996,0,0.2945,0.5545,Model 4: Two-Factor,***
+SelfDetermination,C3,0.4744,0.0585,8.1101,0,0.3598,0.5891,Model 4: Two-Factor,***
+SelfDetermination,C4,0.6807,0.0475,14.3403,0,0.5877,0.7738,Model 4: Two-Factor,***
+SelfDetermination,C5,0.6907,0.0484,14.2785,0,0.5959,0.7855,Model 4: Two-Factor,***
+SelfDetermination,C6,0.6757,0.0447,15.1254,0,0.5881,0.7632,Model 4: Two-Factor,***
+SelfDetermination,C7,0.5498,0.0508,10.8123,0,0.4501,0.6494,Model 4: Two-Factor,***
+SelfDetermination,A1,0.5411,0.0568,9.5302,0,0.4298,0.6524,Model 4: Two-Factor,***
+SelfDetermination,A2,0.6353,0.0458,13.8601,0,0.5455,0.7251,Model 4: Two-Factor,***
+SelfDetermination,A3,0.4644,0.0581,7.9959,0,0.3506,0.5783,Model 4: Two-Factor,***
+SelfDetermination,A5,0.4564,0.058,7.8699,0,0.3427,0.5701,Model 4: Two-Factor,***
+SelfDetermination,A6,0.4647,0.0586,7.9262,0,0.3498,0.5796,Model 4: Two-Factor,***
+SelfDetermination,A7,0.3736,0.0683,5.4663,0,0.2396,0.5075,Model 4: Two-Factor,***
+Relatedness,HHR1,0.4335,0.0631,6.8692,0,0.3098,0.5572,Model 4: Two-Factor,***
+Relatedness,HHR2,0.3272,0.0613,5.3355,0,0.207,0.4474,Model 4: Two-Factor,***
+Relatedness,HHR3,0.516,0.0635,8.125,0,0.3915,0.6405,Model 4: Two-Factor,***
+Relatedness,HHR4,0.6989,0.0556,12.5771,0,0.59,0.8078,Model 4: Two-Factor,***
+Relatedness,HRR1,0.4241,0.0694,6.1085,0,0.288,0.5602,Model 4: Two-Factor,***
+Relatedness,HRR2,0.5113,0.0706,7.2423,0,0.3729,0.6497,Model 4: Two-Factor,***
+Relatedness,HRR4,0.2359,0.0742,3.1806,0.0015,0.0905,0.3813,Model 4: Two-Factor,**

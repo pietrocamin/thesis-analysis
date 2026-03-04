@@ -1,0 +1,25 @@
+Factor,Item,Std_Loading,SE,Z,p_value,CI_lower,CI_upper,Model,Sig
+Competence,C1,0.6336,0.0534,11.8666,0,0.529,0.7383,Model 1: Theoretical,***
+Competence,C2,0.4349,0.067,6.4927,0,0.3036,0.5661,Model 1: Theoretical,***
+Competence,C3,0.4915,0.0584,8.4095,0,0.3769,0.606,Model 1: Theoretical,***
+Competence,C4,0.7029,0.0483,14.5633,0,0.6083,0.7975,Model 1: Theoretical,***
+Competence,C5,0.7102,0.0493,14.3963,0,0.6135,0.8069,Model 1: Theoretical,***
+Competence,C6,0.6943,0.0446,15.5681,0,0.6069,0.7817,Model 1: Theoretical,***
+Competence,C7,0.5612,0.0516,10.876,0,0.4601,0.6624,Model 1: Theoretical,***
+Autonomy,A1,0.5782,0.0615,9.408,0,0.4577,0.6987,Model 1: Theoretical,***
+Autonomy,A2,0.6945,0.0478,14.5255,0,0.6008,0.7882,Model 1: Theoretical,***
+Autonomy,A3,0.5061,0.0583,8.6855,0,0.3919,0.6204,Model 1: Theoretical,***
+Autonomy,A5,0.4976,0.0605,8.2199,0,0.3789,0.6162,Model 1: Theoretical,***
+Autonomy,A6,0.4988,0.0605,8.2409,0,0.3801,0.6174,Model 1: Theoretical,***
+Autonomy,A7,0.4016,0.0714,5.6219,0,0.2616,0.5416,Model 1: Theoretical,***
+HHR,HHR1,0.4477,0.0665,6.7294,0,0.3173,0.5781,Model 1: Theoretical,***
+HHR,HHR2,0.327,0.066,4.9554,0,0.1977,0.4564,Model 1: Theoretical,***
+HHR,HHR3,0.5476,0.0613,8.9313,0,0.4275,0.6678,Model 1: Theoretical,***
+HHR,HHR4,0.7503,0.0578,12.9878,0,0.6371,0.8635,Model 1: Theoretical,***
+HRR,HRR1,0.5906,0.076,7.7664,0,0.4415,0.7396,Model 1: Theoretical,***
+HRR,HRR2,0.7487,0.1074,6.9733,0,0.5383,0.9591,Model 1: Theoretical,***
+HRR,HRR4,0.3417,0.0881,3.8785,1e-4,0.169,0.5144,Model 1: Theoretical,***
+WellBeing,Competence,0.919,0.043,21.3644,0,0.8347,1.0034,Model 1: Theoretical,***
+WellBeing,Autonomy,0.8774,0.0486,18.0416,0,0.7821,0.9727,Model 1: Theoretical,***
+WellBeing,HHR,0.8148,0.0618,13.1894,0,0.6937,0.9358,Model 1: Theoretical,***
+WellBeing,HRR,0.5709,0.0716,7.9695,0,0.4305,0.7113,Model 1: Theoretical,***

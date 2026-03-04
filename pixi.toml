@@ -19,6 +19,7 @@ doc = "pdoc --html --output-dir docs src" # Task to generate documentation
 
 [dependencies]
 python = ">=3.13.3,<3.14"
+r-base = ">=4.0,<5"
 pandas = ">=2.3.0,<3"
 matplotlib = ">=3.10.3,<4"
 seaborn = ">=0.13.2,<0.14"

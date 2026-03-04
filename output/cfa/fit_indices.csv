@@ -1,0 +1,5 @@
+Model,chi2,df,p_chi2,CFI,TLI,RMSEA,RMSEA_lower,RMSEA_upper,SRMR
+Model 1: Theoretical,487.226,166,0,0.631,0.578,0.12,0.109,0.131,0.102
+Model 2: Empirical (EFA),347.618,166,0,0.769,0.736,0.095,0.083,0.107,0.085
+Model 4: Two-Factor,519.658,169,0,0.596,0.545,0.124,0.114,0.135,0.106
+Model 5: Correlated Four-Factor,486.992,164,0,0.635,0.577,0.12,0.109,0.131,0.102

@@ -1,0 +1,5 @@
+Factor,Competence,Autonomy,HHR,HRR,Model
+Competence,1,0.808,0.7789,0.4758,Model 5: Correlated Four-Factor
+Autonomy,0.808,1,0.6622,0.5687,Model 5: Correlated Four-Factor
+HHR,0.7789,0.6622,1,0.4751,Model 5: Correlated Four-Factor
+HRR,0.4758,0.5687,0.4751,1,Model 5: Correlated Four-Factor

@@ -1,0 +1,5 @@
+Factor,F1_SelfEfficacy,F2_SocialRelated,F3_Evaluative,F4_ExternalReg,Model
+F1_SelfEfficacy,1,0.4459,0.7025,0.4795,Model 2: Empirical
+F2_SocialRelated,0.4459,1,0.5299,0.3617,Model 2: Empirical
+F3_Evaluative,0.7025,0.5299,1,0.5699,Model 2: Empirical
+F4_ExternalReg,0.4795,0.3617,0.5699,1,Model 2: Empirical

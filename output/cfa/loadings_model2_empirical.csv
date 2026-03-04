@@ -1,0 +1,25 @@
+Factor,Item,Std_Loading,SE,Z,p_value,CI_lower,CI_upper,Model,Sig
+F1_SelfEfficacy,C1,0.7173,0.0501,14.319,0,0.6191,0.8155,Model 2: Empirical,***
+F1_SelfEfficacy,C2,0.472,0.0674,7.0053,0,0.3399,0.6041,Model 2: Empirical,***
+F1_SelfEfficacy,C3,0.549,0.0548,10.0111,0,0.4416,0.6565,Model 2: Empirical,***
+F1_SelfEfficacy,C4,0.7834,0.045,17.4181,0,0.6953,0.8716,Model 2: Empirical,***
+F1_SelfEfficacy,A1,0.611,0.0583,10.4863,0,0.4968,0.7251,Model 2: Empirical,***
+F1_SelfEfficacy,A5,0.4883,0.0622,7.8509,0,0.3664,0.6102,Model 2: Empirical,***
+F2_SocialRelated,A6,0.5588,0.0626,8.9317,0,0.4362,0.6814,Model 2: Empirical,***
+F2_SocialRelated,A7,0.5633,0.0729,7.7304,0,0.4205,0.7061,Model 2: Empirical,***
+F2_SocialRelated,HHR1,0.521,0.0677,7.7004,0,0.3884,0.6536,Model 2: Empirical,***
+F2_SocialRelated,HHR2,0.4374,0.0643,6.8017,0,0.3114,0.5635,Model 2: Empirical,***
+F2_SocialRelated,HRR1,0.5475,0.0704,7.773,0,0.4095,0.6856,Model 2: Empirical,***
+F2_SocialRelated,HRR2,0.6031,0.0837,7.2085,0,0.4391,0.7671,Model 2: Empirical,***
+F2_SocialRelated,HRR4,0.3146,0.0798,3.9423,1e-4,0.1582,0.471,Model 2: Empirical,***
+F3_Evaluative,C5,0.7518,0.0513,14.6639,0,0.6513,0.8523,Model 2: Empirical,***
+F3_Evaluative,C6,0.7465,0.0513,14.5596,0,0.646,0.8469,Model 2: Empirical,***
+F3_Evaluative,C7,0.5971,0.0518,11.5255,0,0.4956,0.6987,Model 2: Empirical,***
+F3_Evaluative,HHR3,0.5207,0.0628,8.2968,0,0.3977,0.6438,Model 2: Empirical,***
+F3_Evaluative,HHR4,0.6884,0.0528,13.0474,0,0.585,0.7918,Model 2: Empirical,***
+F4_ExternalReg,A2,0.9826,0.0683,14.3962,0,0.8488,1.1163,Model 2: Empirical,***
+F4_ExternalReg,A3,0.613,0.0604,10.1465,0,0.4946,0.7314,Model 2: Empirical,***
+WellBeing,F1_SelfEfficacy,0.7688,0.0564,13.6345,0,0.6583,0.8793,Model 2: Empirical,***
+WellBeing,F2_SocialRelated,0.58,0.0651,8.9059,0,0.4523,0.7076,Model 2: Empirical,***
+WellBeing,F3_Evaluative,0.9137,0.0517,17.6825,0,0.8124,1.015,Model 2: Empirical,***
+WellBeing,F4_ExternalReg,0.6237,0.0694,8.9837,0,0.4876,0.7598,Model 2: Empirical,***
