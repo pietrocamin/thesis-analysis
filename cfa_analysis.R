@@ -95,6 +95,8 @@ model2 <- '
 # MODEL 3: Bifactor model.
 # Each item loads simultaneously on a general WB g-factor and its group factor.
 # Group factors and g-factor are orthogonal (standard bifactor specification).
+#   I.e., the model specifies that the general factor (g) is uncorrelated with the other latent factors
+#   (Competence, Autonomy, HHR, HRR), and the latent factors are also uncorrelated with each other.
 # Non-convergence (Heywood cases) will exclude this model automatically.
 # -----------------------------------------------------------------------------
 
@@ -121,7 +123,7 @@ model3 <- '
 
 
 # -----------------------------------------------------------------------------
-# MODEL 4: Two-factor correlated model (exploratory).
+# MODEL 4: Two-factor correlated model (theoretical).
 # Motivated by PA and MAP converging on 2 factors, and by the very high
 # inter-factor correlations in Model 1 (Competence-Autonomy = 0.806),
 # which suggest these constructs may not be empirically distinguishable.
@@ -140,6 +142,16 @@ model4 <- '
   Relatedness       =~ HHR1 + HHR2 + HHR3 + HHR4 +
                        HRR1 + HRR2 + HRR4
 '
+
+# model4 <- '
+#   SelfDetermination =~ C1 + C2 + C3 + C4 + C5 + C6 + 
+#                        A1 + A2 + A3 + A5 +
+#                        HHR3 + HHR4
+#   Relatedness       =~ C7 +
+#                        A6 + A7 + 
+#                        HHR1 + HHR2 +  
+#                        HRR1 + HRR2 + HRR4
+# '
 
 # -----------------------------------------------------------------------------
 # MODEL 5: Correlated four-factor model (no higher-order factor).
@@ -163,9 +175,9 @@ model4 <- '
 # related to the other factors, without needing a higher-order specification.
 # -----------------------------------------------------------------------------
 
+# Four correlated first-order factors (same items as Model 1)
+# No higher-order factor — all inter-factor covariances are freely estimated
 model5 <- '
-  # Four correlated first-order factors (same items as Model 1)
-  # No higher-order factor — all inter-factor covariances are freely estimated
   Competence =~ C1 + C2 + C3 + C4 + C5 + C6 + C7
   Autonomy   =~ A1 + A2 + A3 + A5 + A6 + A7
   HHR        =~ HHR1 + HHR2 + HHR3 + HHR4
