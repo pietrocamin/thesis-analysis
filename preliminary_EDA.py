@@ -512,7 +512,7 @@ class LikertEDAItemAnalysis:
 
 
     # -- Plot Item Statistics --
-    def plot_item_statistics(self, figsize=(18, 16)):
+    def plot_item_statistics_summary(self, figsize=(18, 16)):
         """
         Create comprehensive visualization of item statistics.
 
@@ -604,6 +604,166 @@ class LikertEDAItemAnalysis:
         
         return fig
 
+
+    # -- Plot Item Means and Standard Deviations --
+    def plot_item_means_sd(self, figsize=(18, 5)):
+        """
+        Plot item means with error bars (±SD).
+
+        Parameters:
+        -----------
+        figsize : tuple
+            Figure size (default: (18, 5))
+        """
+        if self.item_stats is None:
+            self.univariate_statistics()
+
+        fig, ax = plt.subplots(figsize=figsize)
+
+        x = range(len(self.item_cols))
+        ax.errorbar(x, self.item_stats['Mean'], yerr=self.item_stats['SD'],
+                    fmt='o', capsize=5, capthick=2)
+        ax.set_xticks(x)
+        ax.set_xticklabels(self.item_stats['Item'], rotation=45, ha='right')
+        ax.set_ylabel('Mean ± SD')
+        ax.set_title('Item Means and Standard Deviations')
+        ax.axhline(y=np.mean(self.item_stats['Mean']), color='r',
+                   linestyle='--', label='Overall Mean')
+        ax.grid(axis='y', alpha=0.3)
+        ax.legend()
+
+        plt.tight_layout()
+        return fig
+
+
+    # -- Plot Item Discrimination --
+    def plot_item_discrimination(self, figsize=(8, 8)):
+        """
+        Plot corrected item-total correlations (discrimination).
+
+        Parameters:
+        -----------
+        figsize : tuple
+            Figure size (default: (8, 8))
+        """
+        if self.item_stats is None:
+            self.univariate_statistics()
+        if self.item_total_corr is None:
+            self.corrected_item_total_correlations()
+
+        fig, ax = plt.subplots(figsize=figsize)
+
+        colors = ['green' if r >= 0.30 else 'red'
+                  for r in self.item_total_corr['Corrected_Item_Total_r']]
+        ax.barh(range(len(self.item_cols)),
+                self.item_total_corr['Corrected_Item_Total_r'],
+                color=colors, alpha=0.7, edgecolor='black')
+        ax.set_yticks(range(len(self.item_cols)))
+        ax.set_yticklabels(self.item_total_corr['Item'])
+        ax.set_xlabel('Corrected Item-Total Correlation')
+        ax.set_title('Item Discrimination')
+        ax.axvline(x=0.30, color='black', linestyle='--', label='Threshold (0.30)')
+        ax.legend()
+        ax.grid(axis='x', alpha=0.3)
+
+        plt.tight_layout()
+        return fig
+
+
+    # -- Plot Item Skewness --
+    def plot_item_skewness(self, figsize=(8, 8)):
+        """
+        Plot skewness for each item.
+
+        Parameters:
+        -----------
+        figsize : tuple
+            Figure size (default: (8, 8))
+        """
+        if self.item_stats is None:
+            self.univariate_statistics()
+
+        fig, ax = plt.subplots(figsize=figsize)
+
+        ax.barh(range(len(self.item_cols)), self.item_stats['Skewness'],
+                alpha=0.7, edgecolor='black')
+        ax.set_yticks(range(len(self.item_cols)))
+        ax.set_yticklabels(self.item_stats['Item'])
+        ax.set_xlabel('Skewness')
+        ax.set_title('Item Skewness')
+        ax.axvline(x=0, color='black', linestyle='-', linewidth=0.5)
+        ax.axvline(x=-1, color='red', linestyle='--', alpha=0.5)
+        ax.axvline(x=1, color='red', linestyle='--', alpha=0.5)
+        ax.grid(axis='x', alpha=0.3)
+
+        plt.tight_layout()
+        return fig
+
+
+    # -- Plot Floor and Ceiling Effects --
+    def plot_floor_ceiling_bar(self, figsize=(18, 5)):
+        """
+        Plot floor and ceiling effect percentages per item.
+
+        Parameters:
+        -----------
+        figsize : tuple
+            Figure size (default: (18, 5))
+        """
+        if self.item_stats is None:
+            self.univariate_statistics()
+
+        fig, ax = plt.subplots(figsize=figsize)
+
+        floor_pcts = self.item_stats[f'Pct_{self.scale_range[0]}'].values
+        ceiling_pcts = self.item_stats[f'Pct_{self.scale_range[1]}'].values
+
+        x_pos = np.arange(len(self.item_cols))
+        width = 0.35
+
+        ax.bar(x_pos - width/2, floor_pcts, width, label='Floor (%)',
+               alpha=0.7, edgecolor='black')
+        ax.bar(x_pos + width/2, ceiling_pcts, width, label='Ceiling (%)',
+               alpha=0.7, edgecolor='black')
+        ax.set_xticks(x_pos)
+        ax.set_xticklabels(self.item_stats['Item'], rotation=45, ha='right')
+        ax.set_ylabel('Percentage')
+        ax.set_title('Floor and Ceiling Effects')
+        ax.axhline(y=15, color='red', linestyle='--', label='15% Threshold')
+        ax.legend()
+        ax.grid(axis='y', alpha=0.3)
+
+        plt.tight_layout()
+        return fig
+
+
+    # -- Plot Distribution of Item Means --
+    def plot_distribution_of_means(self, figsize=(8, 5)):
+        """
+        Plot histogram of item means.
+
+        Parameters:
+        -----------
+        figsize : tuple
+            Figure size (default: (8, 5))
+        """
+        if self.item_stats is None:
+            self.univariate_statistics()
+
+        fig, ax = plt.subplots(figsize=figsize)
+
+        ax.hist(self.item_stats['Mean'], bins=20, edgecolor='black', alpha=0.7)
+        ax.set_xlabel('Item Mean')
+        ax.set_ylabel('Frequency')
+        ax.set_title('Distribution of Item Means')
+        ax.axvline(x=np.mean(self.item_stats['Mean']), color='red',
+                   linestyle='--', label=f'Mean={np.mean(self.item_stats["Mean"]):.2f}')
+        ax.legend()
+        ax.grid(axis='y', alpha=0.3)
+
+        plt.tight_layout()
+        return fig
+    
 
     # -- Plot Correlation Heatmap --
     def plot_correlation_heatmap(self, figsize=(12, 10), annot=False):
@@ -847,8 +1007,24 @@ if __name__ == "__main__":
     plt.savefig('images/preliminary-EDA/item_distributions.png', dpi=300, bbox_inches='tight', pad_inches=0.05)
     
     # Item statistics
-    fig_statistics = analyzer.plot_item_statistics()
-    plt.savefig('images/preliminary-EDA/item_statistics.png', dpi=300, bbox_inches='tight', pad_inches=0.05)
+    fig_statistics = analyzer.plot_item_statistics_summary()
+    plt.savefig('images/preliminary-EDA/item_statistics_summary.png', dpi=300, bbox_inches='tight', pad_inches=0.05)
+
+    # Individual item statistic plots
+    fig_means_sd = analyzer.plot_item_means_sd()
+    plt.savefig('images/preliminary-EDA/item_means_sd.png', dpi=300, bbox_inches='tight', pad_inches=0.05)
+
+    fig_discrimination = analyzer.plot_item_discrimination()
+    plt.savefig('images/preliminary-EDA/item_discrimination.png', dpi=300, bbox_inches='tight', pad_inches=0.05)
+
+    fig_skewness = analyzer.plot_item_skewness()
+    plt.savefig('images/preliminary-EDA/item_skewness.png', dpi=300, bbox_inches='tight', pad_inches=0.05)
+
+    fig_floor_ceiling_bar = analyzer.plot_floor_ceiling_bar()
+    plt.savefig('images/preliminary-EDA/item_floor_ceiling.png', dpi=300, bbox_inches='tight', pad_inches=0.05)
+
+    fig_dist_means = analyzer.plot_distribution_of_means()
+    plt.savefig('images/preliminary-EDA/item_distribution_of_means.png', dpi=300, bbox_inches='tight', pad_inches=0.05)
 
     # Correlation heatmap
     fig_correlation = analyzer.plot_correlation_heatmap()
