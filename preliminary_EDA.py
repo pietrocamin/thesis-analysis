@@ -8,6 +8,23 @@ import os  # For directory operations
 import warnings
 warnings.filterwarnings('ignore')  # Ignore warnings for cleaner output
 
+sns.set_theme(style="whitegrid", context="paper", font="DejaVu Sans")
+
+plt.rcParams.update({
+    'figure.dpi': 150,
+    'axes.spines.top': False,
+    'axes.spines.right': False,
+    'axes.titlesize': 13,
+    'axes.titleweight': 'bold',
+    'axes.titlepad': 12,
+    'axes.labelsize': 11,
+    'xtick.labelsize': 9,
+    'ytick.labelsize': 9,
+    'legend.fontsize': 9,
+    'legend.frameon': True,
+    'legend.framealpha': 1.0,
+})
+
 
 # --- Likert EDA and Item Analysis Class ---
 class LikertEDAItemAnalysis:
@@ -496,7 +513,7 @@ class LikertEDAItemAnalysis:
             counts = self.data[item].value_counts().sort_index()
             
             # Bar plot
-            ax.bar(counts.index, counts.values, edgecolor='black', alpha=0.7)
+            ax.bar(counts.index, counts.values, color='#708EBF', edgecolor='black', alpha=1.0 )
             ax.set_xlabel('Likert answer')
             ax.set_ylabel('Frequency')
             ax.set_title(f'$\\mathbf{{{item}}}$\nM={self.data[item].mean():.2f}, SD={self.data[item].std():.2f}')
@@ -545,30 +562,30 @@ class LikertEDAItemAnalysis:
         
         # 2. Item-total correlations
         ax2 = fig.add_subplot(gs[1, 0])
-        colors = ['green' if r >= 0.30 else 'red' 
+        colors = ['#309830' if r >= 0.30 else '#FF3838' 
                   for r in self.item_total_corr['Corrected_Item_Total_r']]
         ax2.barh(range(len(self.item_cols)), 
                  self.item_total_corr['Corrected_Item_Total_r'],
-                 color=colors, alpha=0.7, edgecolor='black')
+                 color=colors, alpha=1.0, edgecolor='black')
         ax2.set_yticks(range(len(self.item_cols)))
         ax2.set_yticklabels(self.item_total_corr['Item'])
         ax2.set_xlabel('Corrected Item-Total Correlation')
         ax2.set_title('Item Discrimination')
-        ax2.axvline(x=0.30, color='black', linestyle='--', label='Threshold (0.30)')
+        ax2.axvline(x=0.30, color='r', linestyle='--', label='Threshold (0.30)')
         ax2.legend()
         ax2.grid(axis='x', alpha=0.3)
         
         # 3. Skewness
         ax3 = fig.add_subplot(gs[1, 1])
         ax3.barh(range(len(self.item_cols)), self.item_stats['Skewness'],
-                 alpha=0.7, edgecolor='black')
+                 color='#708EBF', alpha=1.0 , edgecolor='black')
         ax3.set_yticks(range(len(self.item_cols)))
         ax3.set_yticklabels(self.item_stats['Item'])
         ax3.set_xlabel('Skewness')
         ax3.set_title('Item Skewness')
         ax3.axvline(x=0, color='black', linestyle='-', linewidth=0.5)
-        ax3.axvline(x=-1, color='red', linestyle='--', alpha=0.5)
-        ax3.axvline(x=1, color='red', linestyle='--', alpha=0.5)
+        ax3.axvline(x=-1, color='r', linestyle='--', alpha=0.5)
+        ax3.axvline(x=1, color='r', linestyle='--', alpha=0.5)
         ax3.grid(axis='x', alpha=0.3)
         
         # 4. Floor/Ceiling effects
@@ -580,24 +597,24 @@ class LikertEDAItemAnalysis:
         width = 0.35
         
         ax4.bar(x_pos - width/2, floor_pcts, width, label='Floor (%)', 
-                alpha=0.7, edgecolor='black')
+                color='#708EBF', alpha=1.0 , edgecolor='black')
         ax4.bar(x_pos + width/2, ceiling_pcts, width, label='Ceiling (%)', 
-                alpha=0.7, edgecolor='black')
+                color='#FFA658', alpha=1.0 , edgecolor='black')
         ax4.set_xticks(x_pos)
         ax4.set_xticklabels(self.item_stats['Item'], rotation=45, ha='right')
         ax4.set_ylabel('Percentage')
         ax4.set_title('Floor and Ceiling Effects')
-        ax4.axhline(y=15, color='red', linestyle='--', label='15% Threshold')
+        ax4.axhline(y=15, color='r', linestyle='--', label='15% Threshold')
         ax4.legend()
         ax4.grid(axis='y', alpha=0.3)
         
         # 5. Distribution of means
         ax5 = fig.add_subplot(gs[2, 1])
-        ax5.hist(self.item_stats['Mean'], bins=20, edgecolor='black', alpha=0.7)
+        ax5.hist(self.item_stats['Mean'], bins=20, edgecolor='black', color='#708EBF', alpha=1.0 )
         ax5.set_xlabel('Item Mean')
         ax5.set_ylabel('Frequency')
         ax5.set_title('Distribution of Item Means')
-        ax5.axvline(x=np.mean(self.item_stats['Mean']), color='red', 
+        ax5.axvline(x=np.mean(self.item_stats['Mean']), color='r', 
                    linestyle='--', label=f'Mean={np.mean(self.item_stats["Mean"]):.2f}')
         ax5.legend()
         ax5.grid(axis='y', alpha=0.3)
@@ -653,16 +670,17 @@ class LikertEDAItemAnalysis:
 
         fig, ax = plt.subplots(figsize=figsize)
 
-        colors = ['green' if r >= 0.30 else 'red'
+        colors = ['#309830' if r >= 0.30 else '#FF3838' 
                   for r in self.item_total_corr['Corrected_Item_Total_r']]
         ax.barh(range(len(self.item_cols)),
                 self.item_total_corr['Corrected_Item_Total_r'],
-                color=colors, alpha=0.7, edgecolor='black')
+                color=colors, alpha=1.0, edgecolor='black')
         ax.set_yticks(range(len(self.item_cols)))
         ax.set_yticklabels(self.item_total_corr['Item'])
+        ax.tick_params(axis='y', length=0)
         ax.set_xlabel('Corrected Item-Total Correlation')
         ax.set_title('Item Discrimination')
-        ax.axvline(x=0.30, color='black', linestyle='--', label='Threshold (0.30)')
+        ax.axvline(x=0.30, color='r', linestyle='--', label='Threshold (0.30)')
         ax.legend()
         ax.grid(axis='x', alpha=0.3)
 
@@ -686,16 +704,17 @@ class LikertEDAItemAnalysis:
         fig, ax = plt.subplots(figsize=figsize)
 
         ax.barh(range(len(self.item_cols)), self.item_stats['Skewness'],
-                alpha=0.7, edgecolor='black')
+                color='#708EBF', alpha=1.0, edgecolor='black')
         ax.set_yticks(range(len(self.item_cols)))
         ax.set_yticklabels(self.item_stats['Item'])
         ax.set_xlabel('Skewness')
+        ax.tick_params(axis='y', length=0)
         ax.set_title('Item Skewness')
         ax.axvline(x=0, color='black', linestyle='-', linewidth=0.5)
-        ax.axvline(x=-1, color='red', linestyle='--', alpha=0.5)
-        ax.axvline(x=1, color='red', linestyle='--', alpha=0.5)
+        ax.axvline(x=-1, color='r', linestyle='--', alpha=1.0)
+        ax.axvline(x=1, color='r', linestyle='--', alpha=1.0)
         ax.grid(axis='x', alpha=0.3)
-
+ 
         plt.tight_layout()
         return fig
 
@@ -722,14 +741,14 @@ class LikertEDAItemAnalysis:
         width = 0.35
 
         ax.bar(x_pos - width/2, floor_pcts, width, label='Floor (%)',
-               alpha=0.7, edgecolor='black')
+               color='#708EBF', alpha=1.0 , edgecolor='black')
         ax.bar(x_pos + width/2, ceiling_pcts, width, label='Ceiling (%)',
-               alpha=0.7, edgecolor='black')
+               color='#FFA658', alpha=1.0 , edgecolor='black')
         ax.set_xticks(x_pos)
         ax.set_xticklabels(self.item_stats['Item'], rotation=45, ha='right')
         ax.set_ylabel('Percentage')
         ax.set_title('Floor and Ceiling Effects')
-        ax.axhline(y=15, color='red', linestyle='--', label='15% Threshold')
+        ax.axhline(y=15, color='r', linestyle='--', label='15% Threshold')
         ax.legend()
         ax.grid(axis='y', alpha=0.3)
 
@@ -752,11 +771,11 @@ class LikertEDAItemAnalysis:
 
         fig, ax = plt.subplots(figsize=figsize)
 
-        ax.hist(self.item_stats['Mean'], bins=20, edgecolor='black', alpha=0.7)
+        ax.hist(self.item_stats['Mean'], bins=20, edgecolor='black', color='#708EBF', alpha=1.0)
         ax.set_xlabel('Item Mean')
         ax.set_ylabel('Frequency')
         ax.set_title('Distribution of Item Means')
-        ax.axvline(x=np.mean(self.item_stats['Mean']), color='red',
+        ax.axvline(x=np.mean(self.item_stats['Mean']), color='r',
                    linestyle='--', label=f'Mean={np.mean(self.item_stats["Mean"]):.2f}')
         ax.legend()
         ax.grid(axis='y', alpha=0.3)
